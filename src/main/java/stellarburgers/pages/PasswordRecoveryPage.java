@@ -8,6 +8,10 @@ import org.openqa.selenium.support.How;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.page;
+import static stellarburgers.resources.Constants.PASSWORD_RECOVERY_PAGE_URL;
+import static stellarburgers.resources.Constants.WAITING_TIME;
 
 /**
  * Author: Alexey Bondarenko
@@ -25,11 +29,18 @@ public class PasswordRecoveryPage {
 
     @Step("Check password recovery page is opened")
     public static void checkPasswordRecoveryPageIsOpened() {
-        passwordRecoveryPageAttribute.shouldBe(visible, Duration.ofSeconds(30));
+        passwordRecoveryPageAttribute.shouldBe(visible, Duration.ofSeconds(WAITING_TIME));
     }
 
     @Step("Click on sign in button on password recovery page")
-    public static void clickOnSignInButtonOnPasswordRecoveryPage() {
+    public static LoginPage clickOnSignInButtonOnPasswordRecoveryPage() {
         signInButton.shouldBe(visible).click();
+        return page(LoginPage.class);
+    }
+
+    @Step("Open password recovery page")
+    public static void openPasswordRecoveryPage() {
+        open(PASSWORD_RECOVERY_PAGE_URL, PasswordRecoveryPage.class);
+        checkPasswordRecoveryPageIsOpened();
     }
 }

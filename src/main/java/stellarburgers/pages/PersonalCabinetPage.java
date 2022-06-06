@@ -9,6 +9,7 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.page;
+import static stellarburgers.resources.Constants.WAITING_TIME;
 
 /**
  * Author: Alexey Bondarenko
@@ -26,7 +27,7 @@ public class PersonalCabinetPage {
 
     @Step("Check that personal cabinet is opened")
     public static void checkPersonalCabinetPageIsOpened() {
-        personalCabinetPageAttribute.shouldBe(visible, Duration.ofSeconds(30));
+        personalCabinetPageAttribute.shouldBe(visible, Duration.ofSeconds(WAITING_TIME));
     }
 
     @Step("Click on logout button")

@@ -9,7 +9,14 @@ import stellarburgers.resources.RegistrationFormFields;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.page;
+import static stellarburgers.pages.MainConstructorPage.checkConstructorPageIsOpenedAfterLogin;
+import static stellarburgers.pages.RegisterNewUserPage.checkRegisterNewUserPageIsOpened;
+import static stellarburgers.resources.Constants.LOGIN_PAGE_URL;
+import static stellarburgers.resources.Constants.WAITING_TIME;
+import static stellarburgers.resources.RegistrationFormFields.EMAIL;
+import static stellarburgers.resources.RegistrationFormFields.PASSWORD;
 
 /**
  * Author: Alexey Bondarenko
@@ -41,15 +48,14 @@ public class LoginPage {
     @FindBy(how = How.XPATH, using = "//button[contains(text(), 'Войти')]")
     private static SelenideElement logInButton;
 
-
     @Step("Check login page is opened")
     public static void checkLoginPageIsOpened() {
-        loginPageAttribute.shouldBe(visible, Duration.ofSeconds(30));
+        loginPageAttribute.shouldBe(visible, Duration.ofSeconds(WAITING_TIME));
     }
 
     @Step("Click on register new user button")
     public static RegisterNewUserPage clickOnRegisterNewUserButton() {
-        registerNewUserButton.shouldBe(visible).click();
+        registerNewUserButton.shouldBe(visible, Duration.ofSeconds(WAITING_TIME)).click();
         return page(RegisterNewUserPage.class);
     }
 
@@ -62,10 +68,34 @@ public class LoginPage {
         }
     }
 
-    @Step("Click on log in button on Login page")
     public static MainConstructorPage clickOnSignInButtonOnLoginPage() {
         logInButton.shouldBe(visible).click();
         return page(MainConstructorPage.class);
+    }
+
+    public static void fillDataInLoginForm(String email, String password) {
+        fillInTheAuthorizationField(EMAIL, email);
+        fillInTheAuthorizationField(PASSWORD, password);
+    }
+
+    @Step("Fill all data in login form and confirm")
+    public static void fillAllDataInLoginFormAndConfirm(String email, String password) {
+        fillDataInLoginForm(email, password);
+        clickOnSignInButtonOnLoginPage();
+        checkConstructorPageIsOpenedAfterLogin();
+    }
+
+    @Step("Open login page with confirmation")
+    public static LoginPage openLoginPage() {
+        open(LOGIN_PAGE_URL, LoginPage.class);
+        checkLoginPageIsOpened();
+        return page(LoginPage.class);
+    }
+
+    public static RegisterNewUserPage openRegisterPageFromLoginPage() {
+        clickOnRegisterNewUserButton();
+        checkRegisterNewUserPageIsOpened();
+        return page(RegisterNewUserPage.class);
     }
 
 }

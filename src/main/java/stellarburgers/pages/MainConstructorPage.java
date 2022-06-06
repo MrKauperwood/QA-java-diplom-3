@@ -4,13 +4,16 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-import stellarburgers.resources.BurgerComponentsFields;
-import stellarburgers.resources.RegistrationFormFields;
+import stellarburgers.resources.BurgerComponentsField;
 
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.page;
+import static stellarburgers.pages.LoginPage.checkLoginPageIsOpened;
+import static stellarburgers.pages.PersonalCabinetPage.checkPersonalCabinetPageIsOpened;
+import static stellarburgers.resources.Constants.*;
 
 /**
  * Author: Alexey Bondarenko
@@ -81,7 +84,7 @@ public class MainConstructorPage {
 
     @Step("Check constructor page is opened")
     public static void checkConstructorPageIsOpened() {
-        constructorPageAttribute.shouldBe(visible, Duration.ofSeconds(30));
+        constructorPageAttribute.shouldBe(visible, Duration.ofSeconds(WAITING_TIME));
     }
 
     @Step("Check confirm order button is displayed")
@@ -107,23 +110,50 @@ public class MainConstructorPage {
         return page(MainConstructorPage.class);
     }
 
-    @Step("Click on component burger field")
-    public static void clickOnComponentField(BurgerComponentsFields component) {
+    public static void clickOnComponentField(BurgerComponentsField component) {
         switch (component) {
-            case BUN -> bunTabButton.shouldBe(visible, Duration.ofSeconds(2)).click();
-            case SAUCES -> sauceTabButton.shouldBe(visible, Duration.ofSeconds(2)).click();
-            case FILLING -> fillingTabButton.shouldBe(visible, Duration.ofSeconds(2)).click();
+            case BUN -> bunTabButton.shouldBe(visible, Duration.ofSeconds(SMALL_WAITING_TIME)).click();
+            case SAUCES -> sauceTabButton.shouldBe(visible, Duration.ofSeconds(SMALL_WAITING_TIME)).click();
+            case FILLING -> fillingTabButton.shouldBe(visible, Duration.ofSeconds(SMALL_WAITING_TIME)).click();
             default -> System.out.println("Incorrect parameter");
         }
     }
 
     @Step("Check component is selected")
-    public static void checkComponentIsSelected(BurgerComponentsFields component) {
+    public static void checkComponentIsSelected(BurgerComponentsField component) {
         switch (component) {
-            case BUN -> selectedBunTabButton.shouldBe(visible, Duration.ofSeconds(2));
-            case SAUCES -> selectedSauceTabButton.shouldBe(visible, Duration.ofSeconds(2));
-            case FILLING -> selectedFillingTabButton.shouldBe(visible, Duration.ofSeconds(2));
+            case BUN -> selectedBunTabButton.shouldBe(visible, Duration.ofSeconds(SMALL_WAITING_TIME));
+            case SAUCES -> selectedSauceTabButton.shouldBe(visible, Duration.ofSeconds(SMALL_WAITING_TIME));
+            case FILLING -> selectedFillingTabButton.shouldBe(visible, Duration.ofSeconds(SMALL_WAITING_TIME));
             default -> System.out.println("Incorrect parameter");
         }
+    }
+
+    @Step("Check constructor page is opened after login")
+    public static void checkConstructorPageIsOpenedAfterLogin() {
+        checkConstructorPageIsOpened();
+        checkConfirmOrderButtonIsDisplayed();
+    }
+
+    @Step("Open personal cabinet after login")
+    public static void openPersonalCabinetAfterLogin() {
+        clickOnPersonalCabinetButtonAfterAuthorization();
+        checkPersonalCabinetPageIsOpened();
+    }
+
+    @Step("Open constructor page with confirmation")
+    public static void openMainConstructorPage() {
+        open(MAIN_PAGE_URL, MainConstructorPage.class);
+        checkConstructorPageIsOpened();
+    }
+
+    public static void openPersonalCabinetPage() {
+        clickOnPersonalCabinetButtonAfterAuthorization();
+        checkPersonalCabinetPageIsOpened();
+    }
+
+    public static void openLoginPageViaSignInButton() {
+        clickOnSignInButton();
+        checkLoginPageIsOpened();
     }
 }

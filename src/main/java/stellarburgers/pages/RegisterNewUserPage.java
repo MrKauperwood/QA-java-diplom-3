@@ -9,6 +9,12 @@ import stellarburgers.resources.RegistrationFormFields;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.page;
+import static stellarburgers.pages.LoginPage.checkLoginPageIsOpened;
+import static stellarburgers.resources.Constants.REGISTRATION_PAGE_URL;
+import static stellarburgers.resources.Constants.WAITING_TIME;
+import static stellarburgers.resources.RegistrationFormFields.*;
 
 /**
  * Author: Alexey Bondarenko
@@ -47,7 +53,7 @@ public class RegisterNewUserPage {
 
     @Step("Check that registerNewUserPage is opened")
     public static void checkRegisterNewUserPageIsOpened() {
-        registerNewUserPageAttribute.shouldBe(visible);
+        registerNewUserPageAttribute.shouldBe(visible, Duration.ofSeconds(WAITING_TIME));
     }
 
     @Step("Check that incorrectPasswordErrorMessage is displayed")
@@ -67,11 +73,38 @@ public class RegisterNewUserPage {
 
     @Step("Click on register button")
     public static void clickOnRegisterButton() {
-        registerButton.shouldBe(visible, Duration.ofSeconds(30)).click();
+        registerButton.shouldBe(visible, Duration.ofSeconds(WAITING_TIME)).click();
     }
 
     @Step("Click on sign in button on registration page")
-    public static void clickOnSignInButtonOnRegistrationPage() {
+    public static LoginPage clickOnSignInButtonOnRegistrationPage() {
         signInButton.shouldBe(visible).click();
+        return page(LoginPage.class);
+    }
+
+    @Step("Check that register new user page is opened")
+    public static void openRegisterNewUserPage() {
+        open(REGISTRATION_PAGE_URL, RegisterNewUserPage.class);
+        checkRegisterNewUserPageIsOpened();
+    }
+
+    @Step("Fill all data in registration form and confirm")
+    public static void fillAllDataInRegistrationFormAndConfirm(String name, String password, String email) {
+        fillAllDataInRegistrationForm(name, password, email);
+        clickOnRegisterButton();
+        checkLoginPageIsOpened();
+    }
+
+    @Step("Fill all data in registration form and confirm for incorrect data")
+    public static void fillAllDataInRegistrationFormAndConfirmForIncorrectData(String name, String password, String email) {
+        fillAllDataInRegistrationForm(name, password, email);
+        clickOnRegisterButton();
+        checkRegisterNewUserPageIsOpened();
+    }
+
+    public static void fillAllDataInRegistrationForm(String name, String password, String email) {
+        fillInTheRegistrationField(NAME, name);
+        fillInTheRegistrationField(PASSWORD, password);
+        fillInTheRegistrationField(EMAIL, email);
     }
 }
