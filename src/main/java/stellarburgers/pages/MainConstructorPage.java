@@ -1,8 +1,16 @@
 package stellarburgers.pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import stellarburgers.resources.BurgerComponentsFields;
+import stellarburgers.resources.RegistrationFormFields;
+
+import java.time.Duration;
+
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.page;
 
 /**
  * Author: Alexey Bondarenko
@@ -12,38 +20,110 @@ public class MainConstructorPage {
 
     // constructor page attribute
     @FindBy(how = How.XPATH, using = "//h1[contains(text(), 'Соберите бургер')]")
-    private SelenideElement constructorPageAttribute;
+    private static SelenideElement constructorPageAttribute;
 
     // sign in button
     @FindBy(how = How.XPATH, using = "//button[contains(text(), 'Войти в аккаунт')]")
-    private SelenideElement signInButton;
+    private static SelenideElement signInButton;
 
     // confirm order button
     @FindBy(how = How.XPATH, using = "//button[contains(text(), 'Оформить заказ')]")
-    private SelenideElement confirmOrderButton;
+    private static SelenideElement confirmOrderButton;
 
     // bun tab button
     @FindBy(how = How.XPATH, using = "//span[contains(text(), 'Булки')]")
-    private SelenideElement bunTabButton;
+    private static SelenideElement bunTabButton;
 
     // selected bun tab button
-    @FindBy(how = How.XPATH, using = "//div[contains(@class, 'tab_tab_type_current__2BEPc')]//span[contains(text(), 'Булки')]")
-    private SelenideElement selectedBunTabButton;
+    @FindBy(how = How.XPATH, using = "//div[contains(@class, 'tab_tab_type_current__2BEPc')]//span[contains(text(), 'Булки')]/parent::div")
+    private static SelenideElement selectedBunTabButton;
 
     // sauce tab button
     @FindBy(how = How.XPATH, using = "//span[contains(text(), 'Соусы')]")
-    private SelenideElement sauceTabButton;
+    private static SelenideElement sauceTabButton;
 
     // selected sauce tab button
-    @FindBy(how = How.XPATH, using = "//div[contains(@class, 'tab_tab_type_current__2BEPc')]//span[contains(text(), 'Соусы')]")
-    private SelenideElement selectedSauceTabButton;
-
+    @FindBy(how = How.XPATH, using = "//div[contains(@class, 'tab_tab_type_current__2BEPc')]//span[contains(text(), 'Соусы')]/parent::div")
+    private static SelenideElement selectedSauceTabButton;
 
     // filling tab button
     @FindBy(how = How.XPATH, using = "//span[contains(text(), 'Начинки')]")
-    private SelenideElement fillingTabButton;
+    private static SelenideElement fillingTabButton;
 
     // selected filling tab button
-    @FindBy(how = How.XPATH, using = "//div[contains(@class, 'tab_tab_type_current__2BEPc')]//span[contains(text(), 'Начинки')]")
-    private SelenideElement selectedFillingTabButton;
+    @FindBy(how = How.XPATH, using = "//div[contains(@class, 'tab_tab_type_current__2BEPc')]//span[contains(text(), 'Начинки')]/parent::div")
+    private static SelenideElement selectedFillingTabButton;
+
+    // personal cabinet button
+    @FindBy(how = How.CSS, using = "a[href='/account']")
+    private static SelenideElement personalCabinetButton;
+
+    // logo button
+    @FindBy(how = How.CSS, using = ".AppHeader_header__logo__2D0X2")
+    private static SelenideElement logoButton;
+
+    // constructor button
+    @FindBy(how = How.XPATH, using = "//p[contains(text(),'Конструктор')]")
+    private static SelenideElement constructorButton;
+
+
+    @Step("Click on personal cabinet button")
+    public static LoginPage clickOnPersonalCabinetButton() {
+        personalCabinetButton.shouldBe(visible).click();
+        return page(LoginPage.class);
+    }
+
+    @Step("Click on personal cabinet button after authorization")
+    public static PersonalCabinetPage clickOnPersonalCabinetButtonAfterAuthorization() {
+        personalCabinetButton.shouldBe(visible).click();
+        return page(PersonalCabinetPage.class);
+    }
+
+    @Step("Check constructor page is opened")
+    public static void checkConstructorPageIsOpened() {
+        constructorPageAttribute.shouldBe(visible, Duration.ofSeconds(30));
+    }
+
+    @Step("Check confirm order button is displayed")
+    public static void checkConfirmOrderButtonIsDisplayed() {
+        confirmOrderButton.shouldBe(visible);
+    }
+
+    @Step("Click on Sign In button")
+    public static LoginPage clickOnSignInButton() {
+        signInButton.shouldBe(visible).click();
+        return page(LoginPage.class);
+    }
+
+    @Step("Click on logo button")
+    public static MainConstructorPage clickOnLogoButton() {
+        logoButton.shouldBe(visible).click();
+        return page(MainConstructorPage.class);
+    }
+
+    @Step("Click on constructor button")
+    public static MainConstructorPage clickOnConstructorButton() {
+        constructorButton.shouldBe(visible).click();
+        return page(MainConstructorPage.class);
+    }
+
+    @Step("Click on component burger field")
+    public static void clickOnComponentField(BurgerComponentsFields component) {
+        switch (component) {
+            case BUN -> bunTabButton.shouldBe(visible, Duration.ofSeconds(2)).click();
+            case SAUCES -> sauceTabButton.shouldBe(visible, Duration.ofSeconds(2)).click();
+            case FILLING -> fillingTabButton.shouldBe(visible, Duration.ofSeconds(2)).click();
+            default -> System.out.println("Incorrect parameter");
+        }
+    }
+
+    @Step("Check component is selected")
+    public static void checkComponentIsSelected(BurgerComponentsFields component) {
+        switch (component) {
+            case BUN -> selectedBunTabButton.shouldBe(visible, Duration.ofSeconds(2));
+            case SAUCES -> selectedSauceTabButton.shouldBe(visible, Duration.ofSeconds(2));
+            case FILLING -> selectedFillingTabButton.shouldBe(visible, Duration.ofSeconds(2));
+            default -> System.out.println("Incorrect parameter");
+        }
+    }
 }
