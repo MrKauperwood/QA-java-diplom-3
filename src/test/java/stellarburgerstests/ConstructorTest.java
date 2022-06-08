@@ -63,6 +63,7 @@ public class ConstructorTest {
         checkSwitchingForTabIsWork(BUN);
     }
 
+    @Step("Prepare data for test")
     private void prepareData() {
         fullUserInformation = registerNewUser();
         isUserDataRegister = true;
@@ -74,7 +75,8 @@ public class ConstructorTest {
         checkComponentIsSelected(field);
     }
 
-    public void cleanDataAfterTest() {
+    @Step("Clean data after test")
+    private void cleanDataAfterTest() {
         if (fullUserInformation != null && isUserDataRegister) {
             String token = getTokenFromClass(fullUserInformation.getUserData());
             deleteUser(token);

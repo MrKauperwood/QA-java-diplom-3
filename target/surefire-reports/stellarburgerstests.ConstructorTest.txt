@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: stellarburgerstests.ConstructorTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.609 s - in stellarburgerstests.ConstructorTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.953 s - in stellarburgerstests.ConstructorTest

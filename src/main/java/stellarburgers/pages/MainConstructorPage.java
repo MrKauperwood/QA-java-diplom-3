@@ -110,6 +110,7 @@ public class MainConstructorPage {
         return page(MainConstructorPage.class);
     }
 
+    @Step("Click on component field")
     public static void clickOnComponentField(BurgerComponentsField component) {
         switch (component) {
             case BUN -> bunTabButton.shouldBe(visible, Duration.ofSeconds(SMALL_WAITING_TIME)).click();
@@ -147,11 +148,13 @@ public class MainConstructorPage {
         checkConstructorPageIsOpened();
     }
 
+    @Step("Open personal cabinet page")
     public static void openPersonalCabinetPage() {
         clickOnPersonalCabinetButtonAfterAuthorization();
         checkPersonalCabinetPageIsOpened();
     }
 
+    @Step("Open login page via sign in button")
     public static void openLoginPageViaSignInButton() {
         clickOnSignInButton();
         checkLoginPageIsOpened();

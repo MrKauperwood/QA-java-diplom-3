@@ -1,5 +1,6 @@
 package stellarburgerstests;
 
+import io.qameta.allure.Step;
 import org.junit.After;
 import org.junit.Test;
 import stellarburgers.apiresources.responses.FullUserInformation;
@@ -37,6 +38,7 @@ public class PersonalCabinetTest {
         checkLoginPageIsOpened();
     }
 
+    @Step("Clean data after test")
     public void cleanDataAfterTest() {
         if (fullUserInformation != null && isUserDataRegister) {
             String token = getTokenFromClass(fullUserInformation.getUserData());
@@ -44,6 +46,7 @@ public class PersonalCabinetTest {
         }
     }
 
+    @Step("Prepare data for test")
     private void prepareData() {
         fullUserInformation = registerNewUser();
         isUserDataRegister = true;

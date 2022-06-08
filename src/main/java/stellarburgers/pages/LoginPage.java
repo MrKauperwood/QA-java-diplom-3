@@ -73,6 +73,7 @@ public class LoginPage {
         return page(MainConstructorPage.class);
     }
 
+    @Step("Fill all data in login form")
     public static void fillDataInLoginForm(String email, String password) {
         fillInTheAuthorizationField(EMAIL, email);
         fillInTheAuthorizationField(PASSWORD, password);
@@ -92,6 +93,7 @@ public class LoginPage {
         return page(LoginPage.class);
     }
 
+    @Step("Open register page from login page")
     public static RegisterNewUserPage openRegisterPageFromLoginPage() {
         clickOnRegisterNewUserButton();
         checkRegisterNewUserPageIsOpened();

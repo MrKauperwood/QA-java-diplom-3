@@ -102,6 +102,7 @@ public class RegisterNewUserPage {
         checkRegisterNewUserPageIsOpened();
     }
 
+    @Step("Fill all data in registration form")
     public static void fillAllDataInRegistrationForm(String name, String password, String email) {
         fillInTheRegistrationField(NAME, name);
         fillInTheRegistrationField(PASSWORD, password);

@@ -1,5 +1,6 @@
 package stellarburgerstests;
 
+import io.qameta.allure.Step;
 import org.junit.After;
 import org.junit.Test;
 
@@ -55,6 +56,7 @@ public class RegistrationTest {
         checkIncorrectPasswordErrorMessageIsDisplayed();
     }
 
+    @Step("Clean data after test")
     public void cleanDataAfterTest() {
         if (newUserData != null && isUserDataRegister) {
             String token = getToken(newUserData);
